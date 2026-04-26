@@ -19,10 +19,29 @@ export default async function handler(req, res) {
 
   const section = tokensPage?.children?.[0];
 
-  const items = section?.children?.map(item => ({
-    name: item.name,
-    type: item.type
-  }));
+  const colors = [];
 
-  res.status(200).json({ items });
+  section?.children?.forEach(group => {
+    group.children?.forEach(item => {
+      const fill = item.fills?.[0];
+
+      if (fill?.color) {
+        const { r, g, b } = fill.color;
+
+        const toHex = (c) =>
+          Math.round(c * 255)
+            .toString(16)
+            .padStart(2, "0");
+
+        const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+
+        colors.push({
+          name: item.name,
+          hex
+        });
+      }
+    });
+  });
+
+  res.status(200).json({ colors });
 }
