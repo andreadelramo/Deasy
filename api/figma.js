@@ -19,9 +19,11 @@ export default async function handler(req, res) {
 
   const section = tokensPage?.children?.[0];
 
-  const colors = [];
+  const tokens = {};
 
-  section?.children?.forEach(group => {
+  section?.children?.forEach((group, groupIndex) => {
+    const scaleName = `color${groupIndex + 1}`;
+
     group.children?.forEach(item => {
       const fill = item.fills?.[0];
 
@@ -35,13 +37,16 @@ export default async function handler(req, res) {
 
         const hex = `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 
-        colors.push({
-          name: item.name,
-          hex
-        });
+        // extraer el número (ej: /100 → 100)
+        const match = item.name.match(/\/(\d+)/);
+        const step = match ? match[1] : "unknown";
+
+        const tokenName = `${scaleName}-${step}`;
+
+        tokens[tokenName] = hex;
       }
     });
   });
 
-  res.status(200).json({ colors });
+  res.status(200).json({ tokens });
 }
