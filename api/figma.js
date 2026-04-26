@@ -7,11 +7,17 @@ export default async function handler(req, res) {
     {
       headers: {
         "X-Figma-Token": FIGMA_TOKEN,
-      },  
+      },
     }
   );
 
   const data = await response.json();
 
-  res.status(200).json(data);
+  // ejemplo simple: extraer nombres de páginas
+  const pages = data.document.children.map(page => ({
+    name: page.name,
+    id: page.id
+  }));
+
+  res.status(200).json({ pages });
 }
