@@ -13,11 +13,20 @@ export default async function handler(req, res) {
 
   const data = await response.json();
 
-  // ejemplo simple: extraer nombres de páginas
-  const pages = data.document.children.map(page => ({
-    name: page.name,
-    id: page.id
+  // encontrar página Tokens
+  const tokensPage = data.document.children.find(
+    page => page.name === "Tokens"
+  );
+
+  if (!tokensPage) {
+    return res.status(404).json({ error: "Tokens page not found" });
+  }
+
+  // sacar los grupos dentro de Tokens
+  const groups = tokensPage.children.map(group => ({
+    name: group.name,
+    id: group.id
   }));
 
-  res.status(200).json({ pages });
+  res.status(200).json({ groups });
 }
