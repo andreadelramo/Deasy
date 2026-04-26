@@ -22,7 +22,12 @@ export default async function handler(req, res) {
   const tokens = {};
 
   section?.children?.forEach((group, groupIndex) => {
-    const scaleName = `color${groupIndex + 1}`;
+    const scaleName = group.name
+  .toLowerCase()
+  .replace(/\s+/g, "-")
+  .replace("color-scale", "")
+  .replace("rectangle", "")
+  .trim();
 
     group.children?.forEach(item => {
       const fill = item.fills?.[0];
