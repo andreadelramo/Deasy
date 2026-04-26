@@ -13,20 +13,22 @@ export default async function handler(req, res) {
 
   const data = await response.json();
 
-  // encontrar página Tokens
   const tokensPage = data.document.children.find(
     page => page.name === "Tokens"
   );
 
-  if (!tokensPage) {
-    return res.status(404).json({ error: "Tokens page not found" });
+  const section = tokensPage.children.find(
+    item => item.name === "Section 1"
+  );
+
+  if (!section) {
+    return res.status(404).json({ error: "Section not found" });
   }
 
-  // sacar los grupos dentro de Tokens
-  const groups = tokensPage.children.map(group => ({
-    name: group.name,
-    id: group.id
+  const items = section.children.map(item => ({
+    name: item.name,
+    type: item.type
   }));
 
-  res.status(200).json({ groups });
+  res.status(200).json({ items });
 }
