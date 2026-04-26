@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     {
       headers: {
         "X-Figma-Token": FIGMA_TOKEN,
-      },
+      },  
     }
   );
 
