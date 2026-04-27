@@ -32,7 +32,7 @@ export default async function handler(req, res) {
   try {
     // 3. Request a Figma (FIX AQUÍ 👇)
     const response = await fetch(
-      `https://api.figma.com/v1/design/${fileKey}`,
+      `https://api.figma.com/v1/files/${fileKey}`,
       {
         headers: {
           "X-Figma-Token": token,
