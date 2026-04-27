@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+export default async function handler(req, res) {}
   // 0. Método permitido
   if (req.method !== "GET") {
     return res.status(405).json({
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
   try {
     // 3. Request a Figma (FIX AQUÍ 👇)
     const response = await fetch(
-      `https://api.figma.com/v1/files/${fileKey}`,
+      `https://api.figma.com/v1/design/${fileKey}`,
       {
         headers: {
           "X-Figma-Token": token,
